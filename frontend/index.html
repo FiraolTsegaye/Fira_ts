@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#home" class="logo">FT</a>
+            <button class="mobile-toggle" aria-label="Toggle Navigation">
+                <span class="material-icons">menu</span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero fade-in">
+            <div class="hero-content">
+                <span class="hero-label">Frontend Developer</span>
+                <h1 class="hero-title">Firaol Tsegaye</h1>
+                <p class="hero-description">I craft clean, responsive, and user-friendly web applications with attention to detail, performance, and modern web standards.</p>
+                <div class="hero-actions">
+                    <a href="#skills" class="btn btn-primary">
+                        View Skills
+                        <span class="material-icons">arrow_forward</span>
+                    </a>
+
+                    <!-- CV download task -->
+                    <a href="Assets/My_CV.pdf" class="btn btn-secondary">
+                        Download CV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section fade-in">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I am a passionate Frontend Developer dedicated to building efficient, accessible, and visual interface solutions. My approach focuses on minimalism, clarity, and modular architecture that ensures seamless user experiences across all devices.</p>
+                    <p>With a foundation in core web technologies and modern tools, I continuously explore standard techniques to optimize site speed, refine interactive UI components, and deliver scalable codebases for client and personal projects.</p>
+                </div>
+                <div class="about-cards">
+                    <div class="info-card">
+                        <span class="material-icons">history_edu</span>
+                        <div>
+                            <h3>2+ Years</h3>
+                            <p>Years Learning</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="material-icons">code</span>
+                        <div>
+                            <h3>10+ Projects</h3>
+                            <p>Projects Built</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <span class="material-icons">layers</span>
+                        <div>
+                            <h3>10+ Stack</h3>
+                            <p>Technologies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section fade-in">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <span class="material-icons">html</span>
+                    <h3>HTML</h3>
+                    <p>Semantic markup, accessible structures, and SEO best practices.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="material-icons">css</span>
+                    <h3>CSS</h3>
+                    <p>Modern layouts, responsive design, animations, and custom variables.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="material-icons">javascript</span>
+                    <h3>JavaScript</h3>
+                    <p>ES6+ features, asynchronous logic, DOM manipulation, and APIs.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="material-icons">source</span>
+                    <h3>Git</h3>
+                    <p>Version control, branching workflows, pull requests, and collaboration.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="material-icons">devices</span>
+                    <h3>Responsive Design</h3>
+                    <p>Fluid grids, flexible images, mobile-first breakpoints, and media queries.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="material-icons">palette</span>
+                    <h3>UI/UX</h3>
+                    <p>Clean design systems, typography hierarchy, whitespace, and usability.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section fade-in">
+            <h2 class="section-title">Contact</h2>
+            <p class="section-description">Feel free to reach out for collaborations or project inquiries.</p>
+            <div class="contact-info-grid">
+                <div class="contact-info-card">
+                    <span class="material-icons">email</span>
+                    <h3>Email</h3>
+                    <p>firaoltsegaye023@gmail.com</p>
+                </div>
+                <div class="contact-info-card">
+                    <span class="material-icons">code</span>
+                    <h3>GitHub</h3>
+                    <p>github.com/FiraolTsegaye</p>
+                </div>
+                <div class="contact-info-card">
+                    <span class="material-icons">work</span>
+                    <h3>LinkedIn</h3>
+                    <p>linkedin.com/in/firaol-tsegaye</p>
+                </div>
+                <div class="contact-info-card">
+                    <span class="material-icons">place</span>
+                    <h3>Location</h3>
+                    <p>Addis Ababa, ET</p>
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Your Email Address">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Your Message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Send Message
+                    <span class="material-icons">send</span>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Firaol Tsegaye &copy; <span id="year"></span></p>
+            <div class="social-links">
+                <a href="#" aria-label="GitHub"><span class="material-icons">code</span></a>
+                <a href="#" aria-label="LinkedIn"><span class="material-icons">work</span></a>
+                <a href="#" aria-label="Email"><span class="material-icons">email</span></a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollToTop" class="scroll-top-btn" aria-label="Scroll to top">
+        <span class="material-icons">arrow_upward</span>
+    </button>
+
+        <a href="/admin" class="edit-portfolio-btn" aria-label="Edit Portfolio">
+        <span class="material-icons">edit</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1 class="login-title">Admin Panel</h1>
+            <form id="login-form" class="admin-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="admin@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="password123">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                <div id="login-error" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+    <script src="/admin/auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (isTokenValid()) {
+                try {
+                    const res = await fetch(`${API_URL}/me`, {
+                        headers: { "Authorization": `Bearer ${getToken()}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        window.location.href = data.has_setup ? "/admin/dashboard.html" : "/admin/setup.html";
+                        return;
+                    }
+                } catch (e) {
+                    localStorage.removeItem("adminToken");
+                }
+            }
+
+            document.getElementById("login-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const errorDiv = document.getElementById("login-error");
+                errorDiv.textContent = "";
+
+                const email = document.getElementById("login-email").value;
+                const password = document.getElementById("login-password").value;
+
+                try {
+                    const response = await fetch(`${API_URL}/login`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.error || "Login failed");
+
+                    localStorage.setItem("adminToken", data.accessToken);
+                    window.location.href = data.has_setup ? "/admin/dashboard.html" : "/admin/setup.html";
+                } catch (err) {
+                    errorDiv.textContent = err.message;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

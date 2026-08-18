@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1 class="login-title">Setup Your Account</h1>
+            <p class="setup-description">Please set your new preferred email and password.</p>
+            <form id="setup-form" class="admin-form">
+                <div class="form-group">
+                    <label for="setup-email">New Email</label>
+                    <input type="email" id="setup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="setup-password">New Password</label>
+                    <input type="password" id="setup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Credentials</button>
+                <div id="setup-error" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+    <script src="/admin/auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!isTokenValid()) {
+                window.location.href = "/admin/";
+                return;
+            }
+
+            document.getElementById("setup-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const errorDiv = document.getElementById("setup-error");
+                errorDiv.textContent = "";
+                errorDiv.style.color = "var(--error-color)";
+
+                const newEmail = document.getElementById("setup-email").value;
+                const newPassword = document.getElementById("setup-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+
+                if (newPassword !== confirmPassword) {
+                    errorDiv.textContent = "Passwords do not match.";
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/setup`, {
+                        method: "POST",
+                        headers: { 
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${getToken()}`
+                        },
+                        body: JSON.stringify({ newEmail, newPassword })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            logout();
+                            return;
+                        }
+                        throw new Error(data.error || "Setup failed");
+                    }
+
+                    localStorage.removeItem("adminToken");
+                    errorDiv.style.color = "var(--success-color)";
+                    errorDiv.textContent = "Credentials updated! Please log in with your new details.";
+                    setTimeout(() => window.location.href = "/admin/", 2000);
+                } catch (err) {
+                    errorDiv.textContent = err.message;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

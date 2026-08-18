@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="nav-container">
+                <span class="logo">ADMIN</span>
+                <button id="logout-btn" class="btn btn-secondary btn-sm">Logout</button>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <h2 class="section-title">Edit Portfolio</h2>
+            <form id="portfolio-form" class="admin-form">
+                <div class="form-group">
+                    <label for="portfolio-name">Name</label>
+                    <input type="text" id="portfolio-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-hero_text">Hero Section Text</label>
+                    <textarea id="portfolio-hero_text" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-about_me">About Me Section</label>
+                    <textarea id="portfolio-about_me" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-email">Email</label>
+                    <input type="email" id="portfolio-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-social_links">Other Social Links (comma separated)</label>
+                    <input type="text" id="portfolio-social_links">
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-years_learning">Years Learning</label>
+                    <input type="text" id="portfolio-years_learning" required>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-projects_built">Projects Built</label>
+                    <input type="text" id="portfolio-projects_built" required>
+                </div>
+                <div class="form-group">
+                    <label for="portfolio-technologies_used">Technologies Used</label>
+                    <input type="text" id="portfolio-technologies_used" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <div id="update-message" class="success-message"></div>
+            </form>
+        </main>
+    </div>
+
+    <script src="/admin/auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!isTokenValid()) {
+                window.location.href = "/admin/";
+                return;
+            }
+
+            document.getElementById("logout-btn").addEventListener("click", logout);
+
+            async function fetchPortfolioData() {
+                try {
+                    const response = await fetch(`${API_URL}/portfolio`);
+                    const data = await response.json();
+                    document.getElementById("portfolio-name").value = data.name || "";
+                    document.getElementById("portfolio-hero_text").value = data.hero_text || "";
+                    document.getElementById("portfolio-about_me").value = data.about_me || "";
+                    document.getElementById("portfolio-email").value = data.email || "";
+                    document.getElementById("portfolio-social_links").value = data.social_links || "";
+                    document.getElementById("portfolio-years_learning").value = data.years_learning || "";
+                    document.getElementById("portfolio-projects_built").value = data.projects_built || "";
+                    document.getElementById("portfolio-technologies_used").value = data.technologies_used || "";
+                } catch (err) {
+                    console.error("Error fetching portfolio:", err);
+                }
+            }
+
+            document.getElementById("portfolio-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const messageDiv = document.getElementById("update-message");
+                messageDiv.textContent = "";
+
+                const formData = {
+                    name: document.getElementById("portfolio-name").value,
+                    hero_text: document.getElementById("portfolio-hero_text").value,
+                    about_me: document.getElementById("portfolio-about_me").value,
+                    email: document.getElementById("portfolio-email").value,
+                    social_links: document.getElementById("portfolio-social_links").value,
+                    years_learning: document.getElementById("portfolio-years_learning").value,
+                    projects_built: document.getElementById("portfolio-projects_built").value,
+                    technologies_used: document.getElementById("portfolio-technologies_used").value
+                };
+
+                try {
+                    const response = await fetch(`${API_URL}/portfolio`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${getToken()}`
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            logout();
+                            return;
+                        }
+                        throw new Error(data.error || "Update failed");
+                    }
+
+                    messageDiv.textContent = "Portfolio updated successfully.";
+                    setTimeout(() => messageDiv.textContent = "", 3000);
+                } catch (err) {
+                    messageDiv.textContent = err.message;
+                }
+            });
+
+            fetchPortfolioData();
+        });
+    </script>
+</body>
+</html>
