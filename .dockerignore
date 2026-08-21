@@ -1,0 +1,6 @@
+.git
+.gitignore
+node_modules
+backend/node_modules
+backend/app.db
+.env
